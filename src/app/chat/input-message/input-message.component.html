@@ -1,0 +1,19 @@
+<div class="chat-footer-container">
+  <form [formGroup]="form" (ngSubmit)="sendMessage()">
+    <mat-form-field class="chat-input">
+      <input
+        class="search-input"
+        matInput placeholder="Enter your message"
+        formControlName="request"
+        maxlength="140"
+        #inputMessage
+        autocomplete="off"
+      >
+      <mat-hint align="end">{{inputMessage.value.length}}/140</mat-hint>
+    </mat-form-field>
+    <button class="chat-button"
+            mat-raised-button
+            [disabled]="form.invalid"
+    >Send</button>
+  </form>
+</div>

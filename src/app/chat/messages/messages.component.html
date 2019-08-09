@@ -1,0 +1,13 @@
+
+  <mat-list class="chat-list">
+    <mat-list-item *ngFor="let message of data" class="message">
+      <img src="../../../assets/images/default-avatar.png" alt="" class="avatar">
+      <ul class="message">
+        <li class="author">{{message.from}}</li>
+        <li class="italic">
+          {{message.message}}
+        </li>
+      </ul>
+    </mat-list-item>
+  </mat-list>
+
