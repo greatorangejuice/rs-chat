@@ -5,6 +5,7 @@ import {MaterialModule} from '../shared/material/material.module';
 import {ReactiveFormsModule} from '@angular/forms';
 import { MessagesComponent } from './messages/messages.component';
 import { InputMessageComponent } from './input-message/input-message.component';
+import {ChatRoutingModule} from './chat-routing.module';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { InputMessageComponent } from './input-message/input-message.component';
   imports: [
     CommonModule,
     MaterialModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ChatRoutingModule
   ],
   exports: [
     ChatComponent
