@@ -23,5 +23,4 @@ export class InputMessageComponent implements OnInit {
     this.form.reset();
     this.chatService.send(request);
   }
-
 }
