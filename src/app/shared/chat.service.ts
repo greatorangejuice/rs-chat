@@ -1,5 +1,5 @@
 import {EventEmitter, Injectable} from '@angular/core';
-import {DataModel, Message, RequestMessage} from './models/data.model';
+import {Message} from './models/data.model';
 import {WebSocketSubject} from 'rxjs/webSocket';
 import {map} from 'rxjs/operators';
 
@@ -12,7 +12,7 @@ export class ChatService {
   public clientMessage = '';
   public sender = 'Juice';
 
-  private socket$: WebSocketSubject<DataModel>;
+  private socket$: WebSocketSubject<any>;
 
   constructor() {
     this.socket$ = new WebSocketSubject(this.url);
