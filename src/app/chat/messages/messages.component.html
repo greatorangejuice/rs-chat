@@ -1,13 +1,22 @@
-
-  <mat-list class="chat-list">
+<div class="chat-list" #viewier>
+  <mat-list>
     <mat-list-item *ngFor="let message of data" class="message">
       <img src="../../../assets/images/default-avatar.png" alt="" class="avatar">
       <ul class="message">
-        <li class="author">{{message.from}}</li>
-        <li class="italic">
+        <div class="message-text">
+
+          <li class="author">{{message.from}}</li>
+          <li class="small-text">
+            {{message.time | date:'medium' }}
+          </li>
+        </div>
+        <div class="italic">
           {{message.message}}
-        </li>
+        </div>
+
       </ul>
     </mat-list-item>
   </mat-list>
+  </div>
+
 

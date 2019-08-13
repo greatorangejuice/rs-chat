@@ -9,3 +9,12 @@ export interface RequestMessage {
   from: string;
   message: string;
 }
+
+export class Message {
+  constructor(
+    public from: string,
+    public message: string,
+) {}
+
+}
+

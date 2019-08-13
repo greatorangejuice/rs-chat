@@ -19,8 +19,9 @@ export class InputMessageComponent implements OnInit {
   }
 
   sendMessage() {
-    const {text} = this.form.value.request
-    this.chatService.sendMessage(text);
+    const request = this.form.value.request;
+    this.form.reset();
+    this.chatService.send(request);
   }
 
 }

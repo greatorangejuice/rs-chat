@@ -1,26 +1,39 @@
 import {EventEmitter, Injectable} from '@angular/core';
-import {DataModel, RequestMessage} from './models/data.model';
-
+import {DataModel, Message, RequestMessage} from './models/data.model';
+import {WebSocketSubject} from 'rxjs/webSocket';
+import {map} from 'rxjs/operators';
 
 @Injectable()
 export class ChatService {
-  private data: DataModel;
 
   messagesResponse = new EventEmitter();
   private url = 'ws://st-chat.shas.tel';
+  public serverMessages = [];
+  public clientMessage = '';
+  public sender = 'Juice';
 
-  connect(url: string) {
-    const ws = new WebSocket(url);
-    ws.onopen = () => {
-      ws.onmessage = (event) => {
-        this.data = JSON.parse(event.data);
-        this.messagesResponse.emit(this.data);
-      };
-    };
+  private socket$: WebSocketSubject<DataModel>;
+
+  constructor() {
+    this.socket$ = new WebSocketSubject(this.url);
+    this.socket$
+      .pipe(
+        map( message => message.reverse() )
+      )
+      .subscribe(
+        (message) => this.messagesResponse.emit(message),
+        (err) => console.error(err),
+        () => console.warn('Completed!')
+      );
   }
 
-  sendMessage(requestMessage: RequestMessage) {
-    const ws = new WebSocket(this.url);
-    ws.send(requestMessage);
+  public send(requestMessage): void {
+    this.clientMessage = requestMessage;
+    const message = new Message(this.sender, this.clientMessage);
+    this.serverMessages.push(message);
+    this.socket$.next(message);
+    this.clientMessage = '';
+    // this.scroll();
   }
+
 }

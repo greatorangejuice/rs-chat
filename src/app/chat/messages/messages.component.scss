@@ -12,7 +12,8 @@
 }
 
 .chat-list {
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
   position: fixed;
   top: 90px;
   left: 25px;
@@ -37,8 +38,16 @@
 }
 
 .message {
+  width: 100%;
   margin: 10px;
   list-style-type: none;
+}
+
+.message-text {
+  display: flex;
+  max-width: 320px;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .italic {
@@ -48,4 +57,9 @@
 .author {
   font-weight: bolder;
   margin-bottom: 5px;
+}
+
+.small-text {
+  font-size: 11px;
+  margin-left: 30%;
 }
