@@ -11,12 +11,20 @@
       >
       <mat-hint align="end">{{inputMessage.value.length}}/140</mat-hint>
     </mat-form-field>
-      <button class="chat-button"
-              mat-raised-button
-              [disabled]="form.invalid"
-              type="submit"
-      >Send
-      </button>
+    <button
+      [disabled]="form.invalid"
+      mat-fab
+      type="submit"
+    >
+      <i class="material-icons">send</i>
+    </button>
+<!--      <button class="chat-button"-->
+<!--              mat-raised-button-->
+<!--              [disabled]="form.invalid"-->
+<!--              type="submit"-->
+<!--      >Send-->
+<!--      </button>-->
+
   <div class="footer">
     <input
       matInput placeholder="Name"
@@ -29,12 +37,5 @@
       (click)="updateName()"
     >Update</button>
   </div>
-<!--    <button-->
-<!--      [disabled]="form.invalid"-->
-<!--      mat-fab-->
-<!--      type="submit"-->
-<!--    >-->
-<!--      <i class="material-icons">send</i>-->
-<!--    </button>-->
   </form>
 </div>
