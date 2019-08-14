@@ -7,7 +7,8 @@ import {map} from 'rxjs/operators';
 export class ChatService {
 
   messagesResponse = new EventEmitter();
-  private url = 'ws://st-chat.shas.tel';
+  // private url = 'ws://st-chat.shas.tel';
+  private url = 'wss://wssproxy.herokuapp.com/ ';
   public serverMessages = [];
   public clientMessage = '';
   public sender = 'Juice';
