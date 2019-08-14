@@ -1,7 +1,6 @@
 <div class="chat-list" #viewier>
   <mat-list>
     <mat-list-item *ngFor="let message of data" class="message">
-<!--      <img src="../../../assets/images/default-avatar.png" alt="" class="avatar">-->
       <div class="badge" [style.backgroundColor]="getSenderColor(message.from)">{{ getSenderInitials(message.from) }}</div>
       <ul class="message">
         <div class="message-text">
@@ -13,8 +12,20 @@
         <div class="italic">
           {{message.message}}
         </div>
-
       </ul>
     </mat-list-item>
   </mat-list>
+  <div *ngIf="isHaveUnreadMessages" class="unreadMessage">
+<!--    <p>-->
+<!--      <span matBadge="{{unreadMessages}}" matBadgeOverlap="false" matBadgeColor="warn">Unread messages</span>-->
+<!--    </p>-->
+    <p>
+      <button mat-button (click)="scroll()">Unread messages</button>
+      <mat-icon matBadge="{{unreadMessages}}" matBadgeColor="warn">message</mat-icon>
+      <!-- Include text description of the icon's meaning for screen-readers -->
+      <span class="cdk-visually-hidden">
+      Example with a home icon with overlaid badge showing the number 15
+    </span>
+    </p>
+  </div>
   </div>
