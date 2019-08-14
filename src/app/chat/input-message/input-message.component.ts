@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {FormControl, FormGroup} from '@angular/forms';
 import {ChatService} from '../../shared/chat.service';
 
 @Component({
@@ -7,20 +7,39 @@ import {ChatService} from '../../shared/chat.service';
   templateUrl: './input-message.component.html',
   styleUrls: ['./input-message.component.scss']
 })
-export class InputMessageComponent implements OnInit {
+export class InputMessageComponent implements OnInit, AfterViewInit {
   form: FormGroup;
+  @ViewChild('name', {static: false}) private nickname: ElementRef;
 
-  constructor(private chatService: ChatService) { }
+  constructor(
+    private chatService: ChatService
+  ) { }
+
+  ngAfterViewInit(): void {
+    if (window.localStorage.getItem('nickname')) {
+      this.nickname.nativeElement.value = window.localStorage.getItem('nickname');
+    } else {
+      this.nickname.nativeElement.value = 'Username';
+    }
+  }
 
   ngOnInit() {
     this.form = new FormGroup({
-      request: new FormControl('', Validators.required),
+      request: new FormControl(''),
     });
+
   }
 
   sendMessage() {
     const request = this.form.value.request;
     this.form.reset();
     this.chatService.send(request);
+  }
+
+  updateName() {
+    console.log(this.nickname.nativeElement.value);
+    const newName = this.nickname.nativeElement.value;
+    window.localStorage.setItem('nickname', newName);
+    this.chatService.changeName(newName);
   }
 }

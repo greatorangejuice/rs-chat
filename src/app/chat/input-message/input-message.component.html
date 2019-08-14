@@ -11,10 +11,24 @@
       >
       <mat-hint align="end">{{inputMessage.value.length}}/140</mat-hint>
     </mat-form-field>
-    <button class="chat-button"
-            mat-raised-button
-            [disabled]="form.invalid"
-    >Send</button>
+      <button class="chat-button"
+              mat-raised-button
+              [disabled]="form.invalid"
+              type="submit"
+      >Send
+      </button>
+  <div class="footer">
+    <input
+      matInput placeholder="Name"
+      #name
+      maxlength="20"
+    >
+    <mat-hint align="end">{{name.value.length}}/20</mat-hint>
+    <button
+      mat-button
+      (click)="updateName()"
+    >Update</button>
+  </div>
 <!--    <button-->
 <!--      [disabled]="form.invalid"-->
 <!--      mat-fab-->

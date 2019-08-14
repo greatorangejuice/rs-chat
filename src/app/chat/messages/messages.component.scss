@@ -39,15 +39,19 @@
 
 .message {
   width: 100%;
-  margin: 10px;
+  margin: 20px;
   list-style-type: none;
 }
 
 .message-text {
   display: flex;
-  max-width: 320px;
+  max-width: 520px;
   align-items: center;
   justify-content: space-between;
+}
+
+.message-text li {
+  word-break: break-all;
 }
 
 .italic {
@@ -62,4 +66,14 @@
 .small-text {
   font-size: 11px;
   //margin-left: 30%;
+}
+
+.badge {
+  border-radius: 50%;
+  background-color: #888;
+  width: 3.5rem;
+  height: 3.5rem;
+  text-align: center;
+  line-height: 3.5rem;
+  font-size: 1.5rem;
 }

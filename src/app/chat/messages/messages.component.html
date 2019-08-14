@@ -1,10 +1,10 @@
 <div class="chat-list" #viewier>
   <mat-list>
     <mat-list-item *ngFor="let message of data" class="message">
-      <img src="../../../assets/images/default-avatar.png" alt="" class="avatar">
+<!--      <img src="../../../assets/images/default-avatar.png" alt="" class="avatar">-->
+      <div class="badge" [style.backgroundColor]="getSenderColor(message.from)">{{ getSenderInitials(message.from) }}</div>
       <ul class="message">
         <div class="message-text">
-
           <li class="author">{{message.from}}</li>
           <li class="small-text">
             {{message.time | date:'medium' }}
@@ -18,5 +18,3 @@
     </mat-list-item>
   </mat-list>
   </div>
-
-

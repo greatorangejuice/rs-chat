@@ -18,7 +18,6 @@ export class MessagesComponent implements OnInit {
 
   @ViewChild('viewier', {static: false}) private viewer: ElementRef;
 
-  private block: HTMLElement;
   ngOnInit(): void {
     this.chatService.messagesResponse
       .subscribe(
@@ -59,6 +58,18 @@ export class MessagesComponent implements OnInit {
 
   private easeInOutSin(t): number {
     return (1 + Math.sin(Math.PI * t - Math.PI / 2)) / 2;
+  }
+
+
+  public getSenderInitials(sender: string): string {
+    return sender && sender.substring(0, 2).toLocaleUpperCase();
+  }
+
+  public getSenderColor(sender: string): string {
+    const alpha = '0123456789ABCDEFGHIJKLMNOPQRSTUVXYZ';
+    const initials = this.getSenderInitials(sender);
+    const value = Math.ceil((alpha.indexOf(initials[0]) + alpha.indexOf(initials[1])) * 255 * 255 * 255 / 50);
+    return '#' + value.toString(16).padEnd(6, '0');
   }
 
 }

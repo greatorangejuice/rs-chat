@@ -11,21 +11,25 @@ export class ChatService {
   private url = 'wss://wssproxy.herokuapp.com/ ';
   public serverMessages = [];
   public clientMessage = '';
-  public sender = 'Juice';
+  public sender = window.localStorage.getItem('nickname');
 
   private socket$: WebSocketSubject<any>;
 
   constructor() {
-    this.socket$ = new WebSocketSubject(this.url);
-    this.socket$
-      .pipe(
-        map( message => message.reverse() )
-      )
-      .subscribe(
-        (message) => this.messagesResponse.emit(message),
-        (err) => console.error(err),
-        () => console.warn('Completed!')
-      );
+    if (this.sender == null) {
+      this.sender = 'Username';
+    }
+    this.connect();
+    // this.socket$ = new WebSocketSubject(this.url);
+    // this.socket$
+    //   .pipe(
+    //     map( message => message.reverse() )
+    //   )
+    //   .subscribe(
+    //     (message) => this.messagesResponse.emit(message),
+    //     (err) => this.socket$.retry(),
+    //     () => console.warn('Completed!')
+    //   );
   }
 
   public send(requestMessage): void {
@@ -34,7 +38,26 @@ export class ChatService {
     this.serverMessages.push(message);
     this.socket$.next(message);
     this.clientMessage = '';
-    // this.scroll();
   }
 
+  public connect() {
+    console.log('reconnect');
+    this.socket$ = new WebSocketSubject(this.url);
+    this.socket$
+      .pipe(
+        map( message => message.reverse() )
+      )
+      .subscribe(
+        (message) => this.messagesResponse.emit(message),
+        () => { setTimeout( () => {
+          this.connect();
+        }, 1000 ); },
+        () => { setTimeout( () => {
+          this.connect(); }, 1000 ); }
+      );
+  }
+
+  public changeName(newName: string) {
+    this.sender = newName;
+  }
 }
