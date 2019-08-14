@@ -38,7 +38,10 @@ export class InputMessageComponent implements OnInit, AfterViewInit {
 
   updateName() {
     console.log(this.nickname.nativeElement.value);
-    const newName = this.nickname.nativeElement.value;
+    let newName = this.nickname.nativeElement.value;
+    if (newName.length === 0) {
+      newName = 'I forgot to come up with a nickname';
+    }
     window.localStorage.setItem('nickname', newName);
     this.chatService.changeName(newName);
   }
