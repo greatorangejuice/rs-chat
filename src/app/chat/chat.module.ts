@@ -6,6 +6,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import { MessagesComponent } from './messages/messages.component';
 import { InputMessageComponent } from './input-message/input-message.component';
 import {ChatRoutingModule} from './chat-routing.module';
+import {MatBadgeModule} from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import {ChatRoutingModule} from './chat-routing.module';
     CommonModule,
     MaterialModule,
     ReactiveFormsModule,
-    ChatRoutingModule
+    ChatRoutingModule,
+    MatBadgeModule
   ],
   exports: [
     ChatComponent

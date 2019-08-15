@@ -1,4 +1,13 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {
+  AfterViewChecked,
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import {ChatService} from '../../shared/chat.service';
 import {DataModel} from '../../shared/models/data.model';
 
@@ -8,13 +17,18 @@ import {DataModel} from '../../shared/models/data.model';
   styleUrls: ['./messages.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MessagesComponent implements OnInit {
+export class MessagesComponent implements OnInit, AfterViewInit {
 
   constructor(
     private chatService: ChatService,
     private changeDetector: ChangeDetectorRef,
   ) {}
   data: DataModel[] = [];
+  firstScroll = true;
+  isFirstConnect = true;
+  isHaveUnreadMessages = false;
+  unreadMessages = 0;
+  currentName = this.chatService.sender;
 
   @ViewChild('viewier', {static: false}) private viewer: ElementRef;
 
@@ -25,8 +39,26 @@ export class MessagesComponent implements OnInit {
           this.data = this.data.concat(req);
           this.changeDetector.detectChanges();
           this.scroll();
+          this.isFirstConnect = false;
         }
       );
+    this.chatService.changeNameEvent
+      .subscribe(
+        (newName: string) => {
+          this.currentName = newName;
+        }
+      )
+  }
+
+  ngAfterViewInit(): void {
+    // this.chatService.reconnect
+    //   .subscribe(
+    //     this.scrollbot()
+    //   );
+    // if (this.firstScroll) {
+    //   this.scrollbot();
+    //   this.firstScroll = false;
+    // }
   }
 
   private scroll(): void {
@@ -39,6 +71,7 @@ export class MessagesComponent implements OnInit {
     if (!this.viewer) {
       return -1;
     }
+
     const nativeElement = this.viewer.nativeElement;
     return nativeElement.scrollHeight - (nativeElement.scrollTop + nativeElement.clientHeight);
   }
@@ -46,20 +79,27 @@ export class MessagesComponent implements OnInit {
   private scrollToBottom(t = 1, b = 0): void {
     if (b < 1) {
       b = this.getDiff();
+      console.log('b', b);
+    }
+    if (b > 130 && !this.isFirstConnect) {
+      this.isHaveUnreadMessages = true;
+      this.unreadMessages++;
+      return;
     }
     if (b > 0 && t <= 120) {
       setTimeout(() => {
         const diff = this.easeInOutSin(t / 120) * this.getDiff();
         this.viewer.nativeElement.scrollTop += diff;
         this.scrollToBottom(++t, b);
+        this.isHaveUnreadMessages = false;
+        this.unreadMessages = 0;
       }, 1 / 60);
-    }
+}
   }
 
   private easeInOutSin(t): number {
     return (1 + Math.sin(Math.PI * t - Math.PI / 2)) / 2;
   }
-
 
   public getSenderInitials(sender: string): string {
     return sender && sender.substring(0, 2).toLocaleUpperCase();
@@ -70,6 +110,14 @@ export class MessagesComponent implements OnInit {
     const initials = this.getSenderInitials(sender);
     const value = Math.ceil((alpha.indexOf(initials[0]) + alpha.indexOf(initials[1])) * 255 * 255 * 255 / 50);
     return '#' + value.toString(16).padEnd(6, '0');
+  }
+
+  scrollbot() {
+    const nativeElement = this.viewer.nativeElement;
+    nativeElement.scrollTop = nativeElement.scrollHeight;
+    this.isFirstConnect = false;
+    this.unreadMessages = 0;
+    this.isHaveUnreadMessages = false;
   }
 
 }
