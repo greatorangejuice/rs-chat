@@ -24,3 +24,12 @@
   padding: 5px;
   //margin: 0 auto;
 }
+
+@media  (max-width: 700px) {
+  .footer {
+    width: 50%;
+  }
+  .chat-input {
+    width: 74%;
+  }
+}

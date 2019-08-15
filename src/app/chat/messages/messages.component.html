@@ -1,26 +1,29 @@
 <div class="chat-list" #viewier>
-  <mat-list>
-    <mat-list-item *ngFor="let message of data" class="message">
-      <div class="badge" [style.backgroundColor]="getSenderColor(message.from)">{{ getSenderInitials(message.from) }}</div>
+    <div *ngFor="let message of data" class="message">
       <ul class="message">
-        <div class="message-text">
-          <li class="author">{{message.from}}</li>
-          <li class="small-text">
-            {{message.time | date:'medium' }}
-          </li>
+        <div class="sender-data">
+          <div class="badge"
+               [style.backgroundColor]="getSenderColor(message.from)">{{ getSenderInitials(message.from) }}</div>
+          <div class="message-text">
+            <p class="author">{{message.from}}</p>
+            <p class="small-text">
+              {{message.time | date:'medium' }}
+            </p>
+          </div>
         </div>
-        <div class="italic">
-          {{message.message}}
-        </div>
+        <li>
+          <div class="italic" [ngClass]="{'mine': message.from == currentName}">
+            {{message.message}}
+          </div>
+        </li>
       </ul>
-    </mat-list-item>
-  </mat-list>
+    </div>
   <div *ngIf="isHaveUnreadMessages" class="unreadMessage">
 <!--    <p>-->
 <!--      <span matBadge="{{unreadMessages}}" matBadgeOverlap="false" matBadgeColor="warn">Unread messages</span>-->
 <!--    </p>-->
     <p>
-      <button mat-button (click)="scroll()">Unread messages</button>
+      <button mat-button (click)="scrollbot()">Go bottom</button>
       <mat-icon matBadge="{{unreadMessages}}" matBadgeColor="warn">message</mat-icon>
       <!-- Include text description of the icon's meaning for screen-readers -->
       <span class="cdk-visually-hidden">

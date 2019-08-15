@@ -7,6 +7,8 @@ import {map} from 'rxjs/operators';
 export class ChatService {
 
   messagesResponse = new EventEmitter();
+  reconnect = new EventEmitter();
+  changeNameEvent = new EventEmitter();
   // private url = 'ws://st-chat.shas.tel';
   private url = 'wss://wssproxy.herokuapp.com/ ';
   public serverMessages = [];
@@ -20,16 +22,6 @@ export class ChatService {
       this.sender = 'Username';
     }
     this.connect();
-    // this.socket$ = new WebSocketSubject(this.url);
-    // this.socket$
-    //   .pipe(
-    //     map( message => message.reverse() )
-    //   )
-    //   .subscribe(
-    //     (message) => this.messagesResponse.emit(message),
-    //     (err) => this.socket$.retry(),
-    //     () => console.warn('Completed!')
-    //   );
   }
 
   public send(requestMessage): void {
@@ -40,8 +32,11 @@ export class ChatService {
     this.clientMessage = '';
   }
 
-  public connect() {
-    console.log('reconnect');
+  public connect(recconect?) {
+    if (recconect) {
+      console.log('reconnect');
+      this.reconnect.emit();
+    }
     this.socket$ = new WebSocketSubject(this.url);
     this.socket$
       .pipe(
@@ -50,14 +45,15 @@ export class ChatService {
       .subscribe(
         (message) => this.messagesResponse.emit(message),
         () => { setTimeout( () => {
-          this.connect();
+          this.connect('reconnect');
         }, 1000 ); },
         () => { setTimeout( () => {
-          this.connect(); }, 1000 ); }
+          this.connect('reconnect'); }, 1000 ); }
       );
   }
 
   public changeName(newName: string) {
     this.sender = newName;
+    this.changeNameEvent.emit(this.sender);
   }
 }

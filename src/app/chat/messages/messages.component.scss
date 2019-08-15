@@ -38,29 +38,29 @@
 }
 
 .message {
-  width: 100%;
-  margin: 20px;
+  //width: 100%;
+  //margin: 20px;
   list-style-type: none;
 }
 
 .message-text {
+  width: 100%;
   display: flex;
   max-width: 520px;
   align-items: center;
   justify-content: space-between;
-}
-
-.message-text li {
-  word-break: break-all;
+  margin-left: 10px;
 }
 
 .italic {
   font-style: italic;
+  word-break: break-all;
+  margin-left: 65px;
+  padding: 5px;
 }
 
 .author {
   font-weight: bolder;
-  margin-bottom: 5px;
 }
 
 .small-text {
@@ -82,4 +82,19 @@
   position: fixed;
   top: 7%;
   left: 40%;
+}
+
+.mine {
+  background-color: #dedede;
+}
+
+.mine-avatar {
+  width: 50px;
+  height: 50px;
+}
+
+.sender-data {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
 }
